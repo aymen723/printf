@@ -8,7 +8,7 @@
  */
 int main(void)
 {
-    int len;
+    int len = 0;
 
     len = _printf("Let's try to printf a simple sentence.\n");
     return (0);
