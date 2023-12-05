@@ -1,53 +1,39 @@
 #include "main.h"
-#include <stdarg.h>
-#include <stdio.h>
-
 /**
- * _printf - Custom printf function with limited functionality.
- * @format: Format string with conversion specifiers.
- *
- * Return: The number of characters printed (excluding the null byte).
+ * _printf - is a function that selects the correct function to print.
+ * @format: identifier to look for.
+ * Return: the length of the string.
  */
-int _printf(const char *format, ...)
+int _printf(const char *const format, ...)
 {
+    convert p[] = {
+        {"%s", print_s}, {"%c", print_c}, {"%%", print_37}, {"%i", print_i}, {"%d", print_d}, {"%r", print_revs}, {"%R", print_rot13}, {"%b", print_bin}, {"%u", print_unsigned}, {"%o", print_oct}, {"%x", print_hex}, {"%X", print_HEX}, {"%S", print_exc_string}, {"%p", print_pointer}};
+
     va_list args;
-    int count = 0;
-    const char *ptr;
+    int i = 0, j, length = 0;
 
     va_start(args, format);
+    if (format == NULL || (format[0] == '%' && format[1] == '\0'))
+        return (-1);
 
-    for (ptr = format; *ptr != '\0'; ptr++)
+Here:
+    while (format[i] != '\0')
     {
-        if (*ptr == '%')
+        j = 13;
+        while (j >= 0)
         {
-            ptr++; /* Move past the '%' character */
-
-            switch (*ptr)
+            if (p[j].ph[0] == format[i] && p[j].ph[1] == format[i + 1])
             {
-            case 'c':
-                count += _putchar(va_arg(args, int));
-                break;
-
-            case 's':
-                count += string_print(args);
-                break;
-
-            case '%':
-                count += _putchar('%');
-                break;
-
-            default:
-                count += _putchar('%') + _putchar(*ptr);
-                break;
+                length += p[j].function(args);
+                i = i + 2;
+                goto Here;
             }
+            j--;
         }
-        else
-        {
-            count += _putchar(*ptr);
-        }
+        _putchar(format[i]);
+        length++;
+        i++;
     }
-
     va_end(args);
-
-    return count;
+    return (length);
 }
