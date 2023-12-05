@@ -20,7 +20,7 @@ typedef struct format
 } convert;
 
 int _putchar(char c);
-int _printf(const char *const format, ...);
+int _printf(const char *format, ...);
 int char_print(va_list val);
 int string_print(va_list val);
 int stringlen(char *a);
