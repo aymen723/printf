@@ -1,40 +1,53 @@
 #include "main.h"
+#include <stdarg.h>
+#include <stdio.h>
 
 /**
- * _printf - is a function that selects the correct function to print.
- * @format: identifier to look for.
- * Return: the length of the string.
+ * _printf - Custom printf function with limited functionality.
+ * @format: Format string with conversion specifiers.
+ *
+ * Return: The number of characters printed (excluding the null byte).
  */
-
 int _printf(const char *format, ...)
 {
-    convert p[] = {
-        {"%s", string_print}, {"%c", char_print}, {"%%", print_per}};
-
     va_list args;
-    int i = 0, j, length = 0;
+    int count = 0;
+    const char *ptr;
 
     va_start(args, format);
-    if (format == NULL || (format[0] == '%' && format[1] == '\0'))
-        return (-1);
 
-    while (format[i] != '\0')
+    for (ptr = format; *ptr != '\0'; ptr++)
     {
-        j = 13;
-        while (j >= 0)
+        if (*ptr == '%')
         {
-            if (p[j].ph[0] == format[i] && p[j].ph[1] == format[i + 1])
+            ptr++; /* Move past the '%' character */
+
+            switch (*ptr)
             {
-                length += p[j].function(args);
-                i = i + 2;
-                goto Here;
+            case 'c':
+                count += _putchar(va_arg(args, int));
+                break;
+
+            case 's':
+                count += string_print(args);
+                break;
+
+            case '%':
+                count += _putchar('%');
+                break;
+
+            default:
+                count += _putchar('%') + _putchar(*ptr);
+                break;
             }
-            j--;
         }
-        _putchar(format[i]);
-        length++;
-        i++;
+        else
+        {
+            count += _putchar(*ptr);
+        }
     }
+
     va_end(args);
-    return (length);
+
+    return count;
 }
