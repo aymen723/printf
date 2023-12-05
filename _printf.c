@@ -13,15 +13,14 @@ int _printf(const char *const format, ...)
 
     va_list args;
     int i = 0, j, length = 0;
-    int found = 0; // Move the declaration outside of the loop
-
+    int found = 0;
     va_start(args, format);
     if (format == NULL || (format[0] == '%' && format[1] == '\0'))
         return (-1);
 
     while (format[i] != '\0')
     {
-        found = 0; // Reset the flag for each iteration
+        found = 0;
         j = 13;
         while (j >= 0)
         {
