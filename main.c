@@ -1,18 +1,23 @@
 #include "main.h"
-#include <limits.h>
-#include <stdio.h>
-/**
- * main - Entry point
- *
- * Return: Always 0
- */
 int main(void)
 {
-    int len;
-    int len2 = 0;
+    int age = 25;
+    myprintf("My name is %s and I am %d years old.\n", "Snehasish", age);
+    double pi = 3.14;
+    myprintf("The value of pi is %.2f.\n", pi);
+    // Print a date and time.
+    myprintf("%s %s\n", "Today is", __DATE__);
+    myprintf("%s %s\n", "The time is", __TIME__);
 
-    len = _printf("Let's try to printf a simple sentence.\n");
-    printf("Length:[%d, %i]\n", len2, len);
+    // Print a list of numbers.
+    int numbers[] = {1, 2, 3, 4, 5};
+    for (int i = 0; i < sizeof(numbers) / sizeof(numbers[0]); i++)
+    {
+        myprintf("%d\n", numbers[i]);
+    }
 
-    return (0);
+    // Print a table of data.
+    myprintf("| Name | Age | Occupation |\n");
+    myprintf("| Snehasish | 25 | AI Engineer |\n");
+    myprintf("| Alice | 30 | Software Engineer |\n");
 }
